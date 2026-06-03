@@ -56,6 +56,7 @@ body.dark-theme {
     
     --card-bg: rgba(19, 27, 46, 0.7);
     --card-border: rgba(255, 255, 255, 0.06);
+    --divider-color: rgba(255, 255, 255, 0.08);
     --card-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.5);
     --card-shadow-hover: 0 20px 48px -5px rgba(0, 0, 0, 0.7);
     
@@ -85,6 +86,7 @@ body.light-theme {
     
     --card-bg: rgba(255, 255, 255, 0.85);
     --card-border: rgba(0, 0, 0, 0.06);
+    --divider-color: rgba(0, 0, 0, 0.08);
     --card-shadow: 0 10px 30px -10px rgba(17, 24, 39, 0.08);
     --card-shadow-hover: 0 20px 40px -5px rgba(17, 24, 39, 0.12);
     
@@ -160,6 +162,23 @@ button {
 .section {
     padding: 100px 0;
     position: relative;
+}
+
+/* Seamless fading section divider */
+.section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--divider-color) 20%, var(--divider-color) 80%, transparent);
+    pointer-events: none;
+}
+
+/* Remove bottom divider from contact section to avoid duplication with footer */
+#contact::after {
+    display: none;
 }
 
 .bg-secondary-section {
@@ -427,6 +446,18 @@ body.light-theme #theme-toggle-btn .moon-icon {
     display: flex;
     align-items: center;
     padding-top: calc(var(--header-height) + 40px);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .hero-container {
@@ -434,6 +465,8 @@ body.light-theme #theme-toggle-btn .moon-icon {
     grid-template-columns: 1.2fr 0.8fr;
     gap: 48px;
     align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-content {
@@ -533,14 +566,14 @@ body.light-theme #theme-toggle-btn .moon-icon {
 
 .avatar-glow {
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
     background: var(--accent-gradient);
     border-radius: var(--radius-full);
-    filter: blur(15px);
-    opacity: 0.6;
+    filter: blur(16px);
+    opacity: 0.25;
     z-index: 1;
     animation: float 6s ease-in-out infinite;
 }
@@ -1029,8 +1062,19 @@ body.light-theme #theme-toggle-btn .moon-icon {
    ========================================================================== */
 .footer {
     padding: 40px 0;
-    border-top: 1px solid var(--card-border);
+    position: relative;
     background-color: var(--bg-primary);
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--divider-color) 20%, var(--divider-color) 80%, transparent);
+    pointer-events: none;
 }
 
 .footer-container {

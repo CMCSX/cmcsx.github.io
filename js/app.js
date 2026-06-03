@@ -390,19 +390,211 @@ document.addEventListener('DOMContentLoaded', () => {
         formFeedback.className = 'form-feedback hidden';
 
         // Get Form Data
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
+        const name = document.getElementById('form-name').value;
+        const email = document.getElementById('form-email').value;
+        const message = document.getElementById('form-message').value;
 
-        // Simulate network request (1.5 seconds)
-        setTimeout(() => {
-            // Success response
-            formFeedback.textContent = `Thank you, ${name}! Your message has been sent successfully. I will get back to you shortly.`;
-            formFeedback.className = 'form-feedback success';
-
-            // Reset form elements
-            contactForm.reset();
+        // AJAX POST request to FormSubmit endpoint
+        fetch('https://formsubmit.co/ajax/christophersantoyo7@gmail.com', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                message: message,
+                _subject: "New Portfolio Message from " + name
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success === "true" || data.success === true) {
+                // Success response
+                formFeedback.textContent = `Thank you, ${name}! Your message has been sent successfully. I will get back to you shortly.`;
+                formFeedback.className = 'form-feedback success';
+                contactForm.reset();
+            } else {
+                // Endpoint level failure
+                const msg = data.message || 'Something went wrong. Please try again.';
+                formFeedback.textContent = `Oops! ${msg} If this is your first submission, check your inbox (christophersantoyo7@gmail.com) for FormSubmit's activation email.`;
+                formFeedback.className = 'form-feedback error';
+            }
+        })
+        .catch(error => {
+            // Connection/network error
+            formFeedback.textContent = 'Oops! A connection error occurred. Please check your network or email me directly at christophersantoyo7@gmail.com.';
+            formFeedback.className = 'form-feedback error';
+        })
+        .finally(() => {
+            // Restore button state
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
-        }, 1500);
+        });
     });
+
+    // ==========================================================================
+    // HERO CANVAS CONSTELLATION ANIMATION (Interactive Node Network)
+    // ==========================================================================
+    const heroCanvas = document.getElementById('hero-canvas');
+    if (heroCanvas) {
+        const ctx = heroCanvas.getContext('2d');
+        let particles = [];
+        let animationFrameId;
+        let isAnimating = false;
+
+        // Tracks Mouse over Hero Section
+        const mouse = { x: null, y: null };
+        const heroSection = document.getElementById('hero');
+
+        if (heroSection) {
+            heroSection.addEventListener('mousemove', (e) => {
+                const rect = heroCanvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+
+            heroSection.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+        }
+
+        // Adjust Canvas Size to match Section Parent Bounds
+        function resizeCanvas() {
+            const rect = heroCanvas.parentElement.getBoundingClientRect();
+            heroCanvas.width = rect.width;
+            heroCanvas.height = rect.height;
+        }
+
+        // Particle class definition
+        class Particle {
+            constructor(width, height) {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4; // Subtle, gentle movement
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 2 + 1; // 1px - 3px dot size
+            }
+
+            update(width, height) {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off borders
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles based on screen size density
+        function initParticles() {
+            particles = [];
+            const densityRatio = Math.min(65, Math.floor((heroCanvas.width * heroCanvas.height) / 14000));
+            for (let i = 0; i < densityRatio; i++) {
+                particles.push(new Particle(heroCanvas.width, heroCanvas.height));
+            }
+        }
+
+        // Main Draw Loop
+        function animate() {
+            ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+
+            const isDark = document.body.classList.contains('dark-theme');
+            // Theme-appropriate colors (indigo base matched to accent gradient)
+            const dotColor = isDark ? 'rgba(99, 102, 241, 0.35)' : 'rgba(79, 70, 229, 0.2)';
+            const jointColor = isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(79, 70, 229, 0.06)';
+
+            ctx.fillStyle = dotColor;
+            ctx.strokeStyle = jointColor;
+            ctx.lineWidth = 1;
+
+            const len = particles.length;
+            for (let i = 0; i < len; i++) {
+                const p1 = particles[i];
+                p1.update(heroCanvas.width, heroCanvas.height);
+                p1.draw();
+
+                // Draw links between nearby particles
+                for (let j = i + 1; j < len; j++) {
+                    const p2 = particles[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 115) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Interactive: Draw links to mouse cursor if within hover range
+            if (mouse.x !== null && mouse.y !== null) {
+                for (let i = 0; i < len; i++) {
+                    const p = particles[i];
+                    const dx = p.x - mouse.x;
+                    const dy = p.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 160) {
+                        const opacity = (1 - dist / 160) * 0.22;
+                        // Use gradient accents (indigo in dark, purple in light)
+                        ctx.strokeStyle = isDark ? `rgba(168, 85, 247, ${opacity})` : `rgba(124, 58, 237, ${opacity})`;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        function startAnimation() {
+            if (!isAnimating) {
+                isAnimating = true;
+                animate();
+            }
+        }
+
+        function stopAnimation() {
+            if (isAnimating) {
+                cancelAnimationFrame(animationFrameId);
+                isAnimating = false;
+            }
+        }
+
+        // Optimization: Intersection observer to sleep loop when section is hidden
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startAnimation();
+                } else {
+                    stopAnimation();
+                }
+            });
+        }, { threshold: 0.05 });
+        sectionObserver.observe(heroSection);
+
+        // Resize behavior
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // Initialize state
+        resizeCanvas();
+        initParticles();
+    }
 });
