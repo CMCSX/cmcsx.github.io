@@ -141,12 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
         '1': {
             title: 'PayAnalytics',
             category: 'Web App / Analytics',
-            image: 'assets/PA1.png',
+            image1: 'assets/PA1.png',
+            image2: 'assets/PA2.png',
+            image3: 'assets/PA3.png',
             client: 'SP Madrid Law and Associates',
             role: 'Developer & Data Analyst',
-            tech: ['Python', 'SQL', 'HTML5', 'CSS3', 'VS Code'],
-            demoLink: 'https://github.com/cmcsx',
-            codeLink: 'https://github.com/cmcsx',
+            tech: ['Next.js', 'PostgreSQL', 'Tailwind CSS', 'FastAPI', 'SQLAlchemy', 'Vercel', 'Render'],
+            demoLink: 'https://pay-analytics-updated.vercel.app/login',
+            codeLink: 'https://github.com/cmcsx/PayAnalytics_CLOUD',
             desc: `
                 <p>PayAnalytics is an interactive telemetry and analysis portal created to help Data Analysts visualize and audit financial collections and process logs.</p>
                 <br>
@@ -164,9 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/project2.png',
             client: 'SP Madrid Law and Associates',
             role: 'Developer & Data Analyst',
-            tech: ['Python', 'SQL', 'HTML5', 'CSS3', 'VS Code'],
-            demoLink: 'https://github.com/cmcsx',
-            codeLink: 'https://github.com/cmcsx',
+            tech: ['Next.js', 'React', 'Typescript', 'Tailwind CSS', 'Radix UI'],
+            codeLink: 'https://github.com/CMCSX/StatWash',
             desc: `
                 <p>StatWash is a bespoke data processing utility developed to sanitize raw spreadsheet datasets before report compiles. It simplifies sorting, null values screening, and column restructuring.</p>
                 <br>
@@ -185,8 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             client: 'STI College Malolos',
             role: 'Capstone Project Developer',
             tech: ['Java', 'GPS APIs', 'MongoDB', 'Android Studio', 'Maps API'],
-            demoLink: 'https://github.com/cmcsx',
-            codeLink: 'https://github.com/cmcsx',
             desc: `
                 <p>MotoResQue is a location-based mobile application designed for emergency rescue and dispatch assistance targeting motorcycle riders in the Malolos region.</p>
                 <br>
