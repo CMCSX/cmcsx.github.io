@@ -305,6 +305,19 @@ button {
     background: var(--bg-secondary);
 }
 
+.icon-btn i {
+    font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    color: var(--text-primary) !important;
+    display: inline-block;
+    transition: color var(--transition-fast);
+}
+
+.icon-btn:hover i {
+    color: var(--accent) !important;
+}
+
 /* Glow Blobs */
 .glow-blob {
     position: absolute;
@@ -1499,6 +1512,10 @@ body.light-theme #theme-toggle-btn .moon-icon {
         padding-top: calc(var(--header-height) + 24px);
         padding-bottom: 48px;
         display: block;
+    }
+
+    .scroll-indicator {
+        display: none;
     }
 
     .hero-container {
