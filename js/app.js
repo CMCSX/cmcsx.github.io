@@ -141,9 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
         '1': {
             title: 'PayAnalytics',
             category: 'Web App / Analytics',
-            image1: 'assets/PA1.png',
-            image2: 'assets/PA2.png',
-            image3: 'assets/PA3.png',
+            type: 'web',
+            images: ['assets/PA1.png', 'assets/PA2.png', 'assets/PA3.png'],
             client: 'SP Madrid Law and Associates',
             role: 'Developer & Data Analyst',
             tech: ['Next.js', 'PostgreSQL', 'Tailwind CSS', 'FastAPI', 'SQLAlchemy', 'Vercel', 'Render'],
@@ -163,7 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         '2': {
             title: 'StatWash',
             category: 'Web App / Data Utility',
-            image: 'assets/project2.png',
+            type: 'web',
+            images: ['assets/SW1.png', 'assets/SW2.png', 'assets/SW3.png'],
             client: 'SP Madrid Law and Associates',
             role: 'Developer & Data Analyst',
             tech: ['Next.js', 'React', 'Typescript', 'Tailwind CSS', 'Radix UI'],
@@ -182,7 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
         '3': {
             title: 'MotoResQue',
             category: 'Mobile App / Capstone Project',
-            image: 'assets/project3.png',
+            type: 'mobile',
+            images: ['assets/MR1.png', 'assets/MR2.png', 'assets/MR3.png'],
             client: 'STI College Malolos',
             role: 'Capstone Project Developer',
             tech: ['Java', 'GPS APIs', 'MongoDB', 'Android Studio', 'Maps API'],
@@ -204,20 +205,118 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.getElementById('modal-close');
     const backdrop = modal.querySelector('.modal-backdrop');
 
+    // Slider State & Elements
+    let currentProjectImages = [];
+    let currentImageIndex = 0;
+
+    const prevBtn = document.getElementById('modal-prev-btn');
+    const nextBtn = document.getElementById('modal-next-btn');
+    const dotsContainer = document.getElementById('modal-slider-dots');
+    const modalImg = document.getElementById('modal-project-img');
+
+    // Setup transition listener on image load
+    modalImg.addEventListener('load', () => {
+        modalImg.classList.remove('fade-out');
+    });
+
+    function updateSliderImage(index) {
+        if (!currentProjectImages || currentProjectImages.length === 0) return;
+        currentImageIndex = index;
+
+        // Start fade out transition
+        modalImg.classList.add('fade-out');
+
+        // Swap source and update pagination indicators after short delay
+        setTimeout(() => {
+            modalImg.src = currentProjectImages[currentImageIndex];
+
+            // Update dots active class
+            const dots = dotsContainer.querySelectorAll('.slider-dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentImageIndex);
+            });
+        }, 150);
+    }
+
+    function setupSlider(images) {
+        currentProjectImages = images || [];
+        currentImageIndex = 0;
+
+        // Clear existing pagination dots
+        dotsContainer.innerHTML = '';
+
+        if (currentProjectImages.length <= 1) {
+            // Hide navigation arrows and dots container
+            prevBtn.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            dotsContainer.classList.add('hidden');
+
+            if (currentProjectImages.length === 1) {
+                modalImg.src = currentProjectImages[0];
+            } else {
+                modalImg.src = '';
+            }
+        } else {
+            // Show navigation arrows and dots container
+            prevBtn.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            dotsContainer.classList.remove('hidden');
+
+            // Generate pagination dots dynamically
+            currentProjectImages.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.className = 'slider-dot' + (idx === 0 ? ' active' : '');
+                dot.addEventListener('click', () => {
+                    updateSliderImage(idx);
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            // Set initial image
+            modalImg.src = currentProjectImages[0];
+        }
+    }
+
     function openModal(projectId) {
         const data = projectsData[projectId];
         if (!data) return;
 
+        // Reset and set layout class based on project type
+        modal.classList.remove('project-type-web', 'project-type-mobile');
+        if (data.type === 'mobile') {
+            modal.classList.add('project-type-mobile');
+        } else {
+            modal.classList.add('project-type-web');
+        }
+
         // Populate Modal Fields
-        document.getElementById('modal-project-img').src = data.image;
-        document.getElementById('modal-project-img').alt = data.title;
+        modalImg.alt = data.title;
         document.getElementById('modal-project-cat').textContent = data.category;
         document.getElementById('modal-project-title').textContent = data.title;
         document.getElementById('modal-project-desc').innerHTML = data.desc;
         document.getElementById('modal-meta-client').textContent = data.client;
         document.getElementById('modal-meta-role').textContent = data.role;
-        document.getElementById('modal-demo-link').href = data.demoLink;
-        document.getElementById('modal-code-link').href = data.codeLink;
+
+        // Handle buttons/links visibility dynamically
+        const demoLink = document.getElementById('modal-demo-link');
+        const codeLink = document.getElementById('modal-code-link');
+
+        if (data.demoLink) {
+            demoLink.href = data.demoLink;
+            demoLink.classList.remove('hidden');
+        } else {
+            demoLink.classList.add('hidden');
+        }
+
+        if (data.codeLink) {
+            codeLink.href = data.codeLink;
+            codeLink.classList.remove('hidden');
+        } else {
+            codeLink.classList.add('hidden');
+        }
+
+        // Initialize slideshow
+        setupSlider(data.images);
 
         // Tech tags list
         const techContainer = document.getElementById('modal-meta-tech');
@@ -249,6 +348,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalClose.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
+
+    // Bind slider arrows
+    prevBtn.addEventListener('click', () => {
+        if (currentProjectImages.length > 1) {
+            const nextIdx = (currentImageIndex - 1 + currentProjectImages.length) % currentProjectImages.length;
+            updateSliderImage(nextIdx);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentProjectImages.length > 1) {
+            const nextIdx = (currentImageIndex + 1) % currentProjectImages.length;
+            updateSliderImage(nextIdx);
+        }
+    });
 
     // Close modal on ESC key
     document.addEventListener('keydown', (e) => {
