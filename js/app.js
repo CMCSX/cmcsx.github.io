@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check for saved theme in localStorage
     const savedTheme = localStorage.getItem('theme');
-    
+
     // Set theme based on storage or default to dark-theme
     if (savedTheme) {
         body.className = savedTheme;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // TYPING ANIMATION
     // ==========================================================================
     const typingTextElement = document.getElementById('typing-text');
-    const roles = ['Developer', 'Data Analyst', 'IT Specialist', 'Tech Innovator'];
+    const roles = ['Developer', 'IT Specialist', 'Tech Innovator'];
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function typeEffect() {
         const currentRole = roles[roleIndex];
-        
+
         if (isDeleting) {
             // Delete characters
             typingTextElement.textContent = currentRole.substring(0, charIndex - 1);
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ACTIVE NAVIGATION LINKS ON SCROLL (Intersection Observer)
     // ==========================================================================
     const sections = document.querySelectorAll('section');
-    
+
     const observerOptions = {
         root: null,
         rootMargin: '-20% 0px -60% 0px', // Trigger when section is in main viewport area
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '1': {
             title: 'PayAnalytics',
             category: 'Web App / Analytics',
-            image: 'assets/project1.png',
+            image: 'assets/PA1.png',
             client: 'SP Madrid Law and Associates',
             role: 'Developer & Data Analyst',
             tech: ['Python', 'SQL', 'HTML5', 'CSS3', 'VS Code'],
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalClose.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
-    
+
     // Close modal on ESC key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
@@ -267,12 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         // Disable submit button and show loading state
         submitBtn.disabled = true;
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin"></i>';
-        
+
         // Hide previous feedback
         formFeedback.className = 'form-feedback hidden';
 
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Success response
             formFeedback.textContent = `Thank you, ${name}! Your message has been sent successfully. I will get back to you shortly.`;
             formFeedback.className = 'form-feedback success';
-            
+
             // Reset form elements
             contactForm.reset();
             submitBtn.disabled = false;

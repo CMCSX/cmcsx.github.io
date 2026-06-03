@@ -318,7 +318,7 @@
                     <!-- Project 1 -->
                     <div class="project-card card" data-project="1" id="project-card-1">
                         <div class="project-img-wrapper">
-                            <img src="assets/project1.png" alt="PayAnalytics Dashboard Preview" class="project-img">
+                            <img src="assets/PA1.png" alt="PayAnalytics Dashboard Preview" class="project-img">
                             <div class="project-overlay">
                                 <span class="btn btn-icon-only"><i class="fa-solid fa-expand"></i></span>
                             </div>
@@ -341,7 +341,7 @@
                     <!-- Project 2 -->
                     <div class="project-card card" data-project="2" id="project-card-2">
                         <div class="project-img-wrapper">
-                            <img src="assets/project2.png" alt="StatWash Application Preview" class="project-img">
+                            <img src="assets/PA2.png" alt="StatWash Application Preview" class="project-img">
                             <div class="project-overlay">
                                 <span class="btn btn-icon-only"><i class="fa-solid fa-expand"></i></span>
                             </div>
@@ -364,7 +364,7 @@
                     <!-- Project 3 -->
                     <div class="project-card card" data-project="3" id="project-card-3">
                         <div class="project-img-wrapper">
-                            <img src="assets/project3.png" alt="MotoResQue Capstone App Preview" class="project-img">
+                            <img src="assets/PA3.png" alt="MotoResQue Capstone App Preview" class="project-img">
                             <div class="project-overlay">
                                 <span class="btn btn-icon-only"><i class="fa-solid fa-expand"></i></span>
                             </div>
@@ -483,7 +483,16 @@
             </button>
             <div class="modal-body">
                 <div class="modal-img-container">
-                    <img src="" alt="" id="modal-project-img" class="modal-project-img">
+                    <div class="modal-slider-wrapper">
+                        <img src="" alt="" id="modal-project-img" class="modal-project-img">
+                        <button id="modal-prev-btn" class="slider-btn prev" aria-label="Previous image">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button id="modal-next-btn" class="slider-btn next" aria-label="Next image">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <div class="slider-dots" id="modal-slider-dots"></div>
+                    </div>
                 </div>
                 <div class="modal-info-container">
                     <span id="modal-project-cat" class="project-cat">Category</span>
