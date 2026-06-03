@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             images: ['assets/MR1.png', 'assets/MR2.png', 'assets/MR3.png'],
             client: 'STI College Malolos',
             role: 'Capstone Project Developer',
-            tech: ['Java', 'GPS APIs', 'MongoDB', 'Android Studio', 'Maps API'],
+            tech: ['React Native', 'Neon Database', 'Socket.io', 'Render', 'Maps API'],
             desc: `
                 <p>MotoResQue is a location-based mobile application designed for emergency rescue and dispatch assistance targeting motorcycle riders in the Malolos region.</p>
                 <br>

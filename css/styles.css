@@ -1087,10 +1087,13 @@ body.light-theme #theme-toggle-btn .moon-icon {
 
 .modal-content {
     position: relative;
-    max-width: 900px;
+    max-width: 1100px;
     width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+    height: 680px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     padding: 0;
     z-index: 1001;
     animation: modalEntry 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1121,12 +1124,14 @@ body.light-theme #theme-toggle-btn .moon-icon {
 
 .modal-body {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1fr 1fr; /* Balanced 50/50 split for web app screenshots and details */
+    height: 100%;
+    overflow: hidden;
 }
 
 /* Mobile project layout on desktop - narrow image column, wide details */
 .modal.project-type-mobile .modal-body {
-    grid-template-columns: 0.75fr 1.25fr;
+    grid-template-columns: 0.7fr 1.3fr;
 }
 
 .modal-img-container {
@@ -1240,7 +1245,9 @@ body.light-theme #theme-toggle-btn .moon-icon {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Flow from top naturally */
+    height: 100%;
+    overflow-y: auto; /* Only info container scrolls on desktop */
 }
 
 .modal-project-title {
@@ -1484,8 +1491,16 @@ body.light-theme #theme-toggle-btn .moon-icon {
     }
 
     /* Modal Layout */
+    .modal-content {
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
     .modal-body {
-        grid-template-columns: 1fr;
+        display: block;
+        height: auto;
+        overflow: visible;
     }
     
     .modal-img-container {
@@ -1506,7 +1521,9 @@ body.light-theme #theme-toggle-btn .moon-icon {
     }
     
     .modal-info-container {
-        padding: 24px;
+        height: auto;
+        overflow-y: visible;
+        padding: 28px 24px;
     }
     
     .contact-grid {
